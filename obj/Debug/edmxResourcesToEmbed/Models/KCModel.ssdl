@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="KCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Table_NewRequest">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NewOrRenew" Type="nvarchar" MaxLength="50" />
+    <Property Name="EmailRequired" Type="nvarchar" MaxLength="100" />
+    <Property Name="ExistingUsername" Type="nvarchar" MaxLength="50" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+    <Property Name="MiddleName" Type="nvarchar" MaxLength="50" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+    <Property Name="KAUSTID" Type="int" />
+    <Property Name="JobTitle" Type="nvarchar" MaxLength="50" />
+    <Property Name="VendorName" Type="nvarchar" MaxLength="50" />
+    <Property Name="NewEmail" Type="nvarchar" MaxLength="50" />
+    <Property Name="ExpiryDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="PhoneNumber" Type="bigint" />
+    <Property Name="ReportingMngUsername" Type="nvarchar" MaxLength="50" />
+    <Property Name="ReportingMngKID" Type="int" />
+    <Property Name="ReportingMngName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ReportingMngEmail" Type="nvarchar" MaxLength="100" />
+    <Property Name="LoginDetailsSentTo" Type="nvarchar" MaxLength="100" />
+    <Property Name="ManagerUsername" Type="nvarchar" MaxLength="50" />
+    <Property Name="ManagerName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ManagerDept" Type="nvarchar" MaxLength="50" />
+    <Property Name="ManagerEmail" Type="nvarchar" MaxLength="100" />
+    <Property Name="ManagerKID" Type="int" />
+    <Property Name="ApprovedBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ApprovedOn" Type="nvarchar" MaxLength="50" />
+    <Property Name="MsgTeamApprovedBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="MsgTeamApprovedOn" Type="nvarchar" MaxLength="50" />
+    <Property Name="Comments" Type="nvarchar(max)" />
+    <Property Name="StatusOfRequest" Type="nvarchar" MaxLength="50" />
+    <Property Name="Requester" Type="nvarchar" MaxLength="50" />
+    <Property Name="RequesterEmail" Type="nvarchar" MaxLength="100" />
+    <Property Name="IDimage" Type="varbinary(max)" />
+    <Property Name="UserComments" Type="nvarchar(max)" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="ManagerTitle" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Function Name="sp_CreateExistingID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ID" Type="int" Mode="In" />
+    <Parameter Name="ExistingUsername" Type="nvarchar" Mode="In" />
+    <Parameter Name="FirstName" Type="nvarchar" Mode="In" />
+    <Parameter Name="MiddleName" Type="nvarchar" Mode="In" />
+    <Parameter Name="LastName" Type="nvarchar" Mode="In" />
+    <Parameter Name="kaustID" Type="int" Mode="In" />
+    <Parameter Name="Job" Type="nvarchar" Mode="In" />
+    <Parameter Name="VendorName" Type="nvarchar" Mode="In" />
+    <Parameter Name="NewEmail" Type="nvarchar" Mode="In" />
+    <Parameter Name="ExpiryDate" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_MngApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ID" Type="int" Mode="In" />
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+    <Parameter Name="Job" Type="nvarchar" Mode="In" />
+    <Parameter Name="ApprovedBy" Type="nvarchar" Mode="In" />
+    <Parameter Name="ApprovedOn" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_MngRejection" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ID" Type="int" Mode="In" />
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+    <Parameter Name="ApprovedBy" Type="nvarchar" Mode="In" />
+    <Parameter Name="ApprovedOn" Type="nvarchar" Mode="In" />
+    <Parameter Name="Comments" Type="nvarchar(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_MsgApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ID" Type="int" Mode="In" />
+    <Parameter Name="MsgTeamApprovedBy" Type="nvarchar" Mode="In" />
+    <Parameter Name="MsgTeamApprovedOn" Type="nvarchar" Mode="In" />
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_MsgRejection" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ID" Type="int" Mode="In" />
+    <Parameter Name="MsgTeamApprovedBy" Type="nvarchar" Mode="In" />
+    <Parameter Name="MsgTeamApprovedOn" Type="nvarchar" Mode="In" />
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+    <Parameter Name="Comments" Type="nvarchar(max)" Mode="In" />
+  </Function>
+  <EntityContainer Name="KCModelStoreContainer">
+    <EntitySet Name="Table_NewRequest" EntityType="Self.Table_NewRequest" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,313 @@
+﻿@model KAUSTConnectForm.Models.Table_NewRequest
+
+@{
+	ViewBag.Title = "New";
+	Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<script>
+@*$(document).ready(function () {
+		$('#Rejected').click(function () {
+			var comments = $('#Comments').val();
+			if (comments == "") {
+				$('#Comments').attr("class", "form-control is-invalid");
+				return false;
+			}
+			else {
+			$.ajax({
+				url: "@Url.Action("ManagerRejection", "Home")",
+				data: "Comments=" + comments,
+				type: "POST"
+				});
+			}
+	});
+
+	$('#Approved').click(function () {
+		var JobTitle = $('#JobTitle').val();
+		if (JobTitle == "") {
+			$('#JobTitle').attr("class", "form-control is-invalid");
+				return false;
+			}
+			else {
+			$.ajax({
+				url: "@Url.Action("ManagerApprove", "Home")",
+				data: "Job=" + JobTitle,
+				type: "POST"
+				});
+			}
+	});
+});*@
+
+	$(document).ready(function () {
+		$('form input[type="submit"]').click(function (event) {
+			var val = $(this).attr('value');
+			var comments = $('#Comments').val();
+			if (val == "Reject" || val == "Modify") {
+				if (comments == "") {
+					$('#Comments').attr("class", "form-control is-invalid");
+					return false;
+				}
+			}
+			return true;
+		});
+	});
+
+	$(document).ready(function () {
+		$('#Comments').change(function () {
+			$('#Comments').attr("class", "form-control is-valid");
+		});
+	});
+
+	$(document).on("keydown", "input", function (e) {
+		if (e.which == 13) e.preventDefault();
+	});
+
+	$(document).ready(function () {
+		$('#ShowID').click(function () {
+			var imageVal = $('#image').val();
+			if (imageVal == "") {
+				$('#image').removeAttr("hidden");
+				$('#image').val("Close KAUST ID");
+				return false;
+			}
+			else {
+				$('#image').attr("hidden", "hidden");
+				$('#image').val("");
+				return false;
+			}
+			return false;
+
+		});
+
+	});
+
+</script>
+
+@using (Html.BeginForm("ManagerApproval", "Home", FormMethod.Post, new { onsubmit = "check(event)" }))
+{
+	@Html.HiddenFor(x => x.ManagerUsername)
+	@Html.HiddenFor(x => x.ManagerTitle)
+	@Html.HiddenFor(x => x.ManagerName)
+	@Html.HiddenFor(x => x.ManagerKID)
+	@Html.HiddenFor(x => x.ManagerEmail)
+	@Html.HiddenFor(x => x.ManagerDept)
+	@Html.HiddenFor(x => x.IDimage)
+	@Html.HiddenFor(x => x.EmailRequired)
+	@Html.HiddenFor(x => x.Email)
+	@Html.HiddenFor(x => x.Requester)
+	@Html.HiddenFor(x => x.RequesterEmail)
+	<div class="container" style="border:1px solid #073642; margin-top: 20px; margin-bottom: 50px; border-radius: 10px;">
+		<div class="panel panel-default" style="padding:10px">
+			<div class="panel-body">
+				<h2>Welcome @Model.ManagerName</h2>
+				<br />
+				<div class="form-group">
+					<h4 class="headerClass"><b>REQUEST DETAILS</b></h4>
+					<hr />
+					<br />
+					<div class="row">
+						<div class="col-4">
+							@Html.LabelFor(model => model.NewOrRenew, "Type")
+
+						</div>
+						@{
+							if (Model.EmailRequired != "NA")
+							{
+								<div class="col-4">
+									@Html.LabelFor(model => model.EmailRequired, "Email Required")
+
+								</div>
+							}
+
+						}
+						@{
+							if (Model.ExistingUsername != null)
+							{
+								<div class="col-4">
+									@Html.LabelFor(model => model.ExistingUsername, "Existing Username")
+
+								</div>
+							}
+
+						}
+
+
+					</div>
+					<div class="row">
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.NewOrRenew, new { @readonly = "readonly", @class = "form-control" })
+
+						</div>
+						@{
+							if (Model.EmailRequired != "NA")
+							{
+								<div class="col-4">
+									@Html.TextBoxFor(model => model.EmailRequired, new { @readonly = "readonly", @class = "form-control" })
+								</div>
+							}
+
+						}
+						@{
+							if (Model.ExistingUsername != null)
+							{
+								<div class="col-4">
+									@Html.TextBoxFor(model => model.ExistingUsername, new { @readonly = "readonly", @class = "form-control" })
+
+								</div>
+							}
+						}
+					</div>
+				</div>
+				<div class="form-group">
+					<h4 class="headerClass"><b>USER DETAILS</b></h4>
+					<hr />
+
+					<div class="row">
+						<div class="col-4">
+							@Html.LabelFor(model => model.FirstName, "First Name")
+						</div>
+						<div class="col-4">
+							@Html.LabelFor(model => model.MiddleName, "Middle Initial")
+						</div>
+						<div class="col-4">
+							@Html.LabelFor(model => model.LastName, "Last Name")
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.FirstName, new { @readonly = "readonly", @class = "form-control" })
+						</div>
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.MiddleName, new { @readonly = "readonly", @class = "form-control" })
+						</div>
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.LastName, new { @readonly = "readonly", @class = "form-control" })
+						</div>
+					</div>
+					<br />
+					<div class="row">
+						<div class="col-4">
+							@Html.LabelFor(model => model.KAUSTID, "KAUST ID")
+						</div>
+						<div class="col-4">
+							@Html.LabelFor(model => model.JobTitle, "Job Title")
+						</div>
+						<div class="col-4">
+							@Html.LabelFor(model => model.VendorName, "Partner/Vendor Name")
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.KAUSTID, new { @readonly = "readonly", @class = "form-control" })
+						</div>
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.JobTitle, new { @class = "form-control" })
+						</div>
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.VendorName, new { @readonly = "readonly", @class = "form-control" })
+						</div>
+					</div>
+					<br />
+					@{
+						if (Model.UserComments != null)
+						{
+							<div class="row">
+								<div class="col-12">
+									@Html.LabelFor(model => model.UserComments, "Comments")
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12">
+									@Html.TextBoxFor(model => model.UserComments, new { @readonly = "readonly", @class = "form-control" })
+								</div>
+							</div>
+						}
+
+					}
+				</div>
+				<br />
+				<label style="color:red">*Please verify/correct the job title as per job description, if required</label>
+				<div class="form-group">
+					<h5 class="headerClass">REPORTING MANAGER/LEAD</h5>
+					<hr />
+					<div class="row">
+						<div class="col-3">
+							@Html.LabelFor(model => model.ReportingMngUsername, "Username/KAUST ID/Email")
+						</div>
+						<div class="col-3">
+							@Html.LabelFor(model => model.ReportingMngName, "Manager Name")
+						</div>
+						<div class="col-3">
+							@Html.LabelFor(model => model.ReportingMngKID, "KAUST ID")
+						</div>
+						<div class="col-3">
+							@Html.LabelFor(model => model.ReportingMngEmail, "Email")
+						</div>
+
+					</div>
+					<div class="row">
+						<div class="col-3">
+							@Html.TextBoxFor(model => model.ReportingMngUsername, new { @readonly = "readonly", @class = "form-control" })
+						</div>
+						<div class="col-3">
+							@Html.TextBoxFor(model => model.ReportingMngName, new { @class = "form-control", @readonly = "readonly" })
+						</div>
+						<div class="col-3">
+							@Html.TextBoxFor(model => model.ReportingMngKID, new { @class = "form-control", @readonly = "readonly" })
+						</div>
+						<div class="col-3">
+							@Html.TextBoxFor(model => model.ReportingMngEmail, new { @class = "form-control", @readonly = "readonly" })
+						</div>
+
+					</div>
+
+
+					<br />
+				</div>
+
+				<div class="form-group" style="text-align:center">
+					<div class="row">
+						<div class="col-4">
+						</div>
+						<div class="col-4">
+							<input type="submit" name="ShowID" id="ShowID" value="View KAUST ID" class="btn btn-info" />
+							<br />
+							<br />
+							<img src='data:image/jpeg;base64,@(Convert.ToBase64String(Model.IDimage))' id="image" height="300" width="200" hidden />
+
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-4">
+					</div>
+					<div class="col-4">
+						<div style="text-align:center">
+							@Html.Label("Comments")
+							@Html.TextAreaFor(m => m.Comments, 5, 10, new { @class = "form-control", @id = "Comments" })
+						</div>
+					</div>
+				</div>
+				@{
+					bool value = Convert.ToBoolean(ViewBag.Hide);
+					if (value == false)
+					{
+						<br />
+						<div style="text-align: center">
+							<input type="submit" value="Approve" id="Approve" class="btn btn-success" name="Submit" /> <input type="submit" id="Reject" value="Reject" class="btn btn-danger" name="Submit" />
+						</div>
+
+						@*<div style="text-align: center;">
+								<br />
+								@Html.ActionLink("Approved", "ManagerApproved", "Home", new { @class = "btn btn-success", @id = "Approved" })
+								@Html.ActionLink("Rejected", "ManagerRejected", "Home", new { @class = "btn btn-danger", @id = "Rejected" })
+								<br />
+							</div>*@
+					}
+				}
+
+			</div>
+			<br />
+		</div>
+	</div>
+}

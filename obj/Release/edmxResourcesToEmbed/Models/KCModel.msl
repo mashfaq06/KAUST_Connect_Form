@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="KCModelStoreContainer" CdmEntityContainer="KCEntities">
+    <EntitySetMapping Name="Table_NewRequest">
+      <EntityTypeMapping TypeName="KCModel.Table_NewRequest">
+        <MappingFragment StoreEntitySet="Table_NewRequest">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="NewOrRenew" ColumnName="NewOrRenew" />
+          <ScalarProperty Name="EmailRequired" ColumnName="EmailRequired" />
+          <ScalarProperty Name="ExistingUsername" ColumnName="ExistingUsername" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="KAUSTID" ColumnName="KAUSTID" />
+          <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+          <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+          <ScalarProperty Name="NewEmail" ColumnName="NewEmail" />
+          <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="ReportingMngUsername" ColumnName="ReportingMngUsername" />
+          <ScalarProperty Name="ReportingMngKID" ColumnName="ReportingMngKID" />
+          <ScalarProperty Name="ReportingMngName" ColumnName="ReportingMngName" />
+          <ScalarProperty Name="ReportingMngEmail" ColumnName="ReportingMngEmail" />
+          <ScalarProperty Name="LoginDetailsSentTo" ColumnName="LoginDetailsSentTo" />
+          <ScalarProperty Name="ManagerUsername" ColumnName="ManagerUsername" />
+          <ScalarProperty Name="ManagerName" ColumnName="ManagerName" />
+          <ScalarProperty Name="ManagerDept" ColumnName="ManagerDept" />
+          <ScalarProperty Name="ManagerEmail" ColumnName="ManagerEmail" />
+          <ScalarProperty Name="ManagerKID" ColumnName="ManagerKID" />
+          <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+          <ScalarProperty Name="ApprovedOn" ColumnName="ApprovedOn" />
+          <ScalarProperty Name="MsgTeamApprovedBy" ColumnName="MsgTeamApprovedBy" />
+          <ScalarProperty Name="MsgTeamApprovedOn" ColumnName="MsgTeamApprovedOn" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="StatusOfRequest" ColumnName="StatusOfRequest" />
+          <ScalarProperty Name="Requester" ColumnName="Requester" />
+          <ScalarProperty Name="RequesterEmail" ColumnName="RequesterEmail" />
+          <ScalarProperty Name="IDimage" ColumnName="IDimage" />
+          <ScalarProperty Name="UserComments" ColumnName="UserComments" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="ManagerTitle" ColumnName="ManagerTitle" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_MngApproval" FunctionName="KCModel.Store.sp_MngApproval" />
+    <FunctionImportMapping FunctionImportName="sp_MngRejection" FunctionName="KCModel.Store.sp_MngRejection" />
+    <FunctionImportMapping FunctionImportName="sp_MsgApproval" FunctionName="KCModel.Store.sp_MsgApproval" />
+    <FunctionImportMapping FunctionImportName="sp_MsgRejection" FunctionName="KCModel.Store.sp_MsgRejection" />
+    <FunctionImportMapping FunctionImportName="sp_CreateExistingID" FunctionName="KCModel.Store.sp_CreateExistingID" />
+  </EntityContainerMapping>
+</Mapping>

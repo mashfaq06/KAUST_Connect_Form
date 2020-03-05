@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<script src="~/Scripts/CSS/jquery-3.0.0.js"></script>
+	<script src="~/Scripts/CSS/jquery.validate.min.js"></script>
+	<script src="~/Scripts/CSS/jquery.validate.unobtrusive.min.js"></script>
+	<link href="~/Scripts/Bootstrap/StyleSheet.css" rel="stylesheet" />
+	<link href="~/Scripts/Bootstrap/TableStyleSheet.css" rel="stylesheet" />
+	<link href="~/Scripts/Bootstrap/FormStyleSheet.css" rel="stylesheet" />
+	<script src="~/Scripts/CSS/bootstrap.min.js"></script>
+
+	<link rel="icon" type="image/x-icon" href="~/Images/favicon.ico" />
+	<title>KAUST Connect Account Form</title>
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="https://www.kaust.edu.sa/en">
+				<img src="~/Images/kaustlogo.png" width="200" />
+			</a>
+			<span class="navbar-text" style="font-weight: bold; font-size: x-large; font-family: Calibri;">@Html.ActionLink("KAUST Connect Account Form", "HomePage", "Home", null, new { @style = "text-decoration:none" })</span>
+		</div>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarColor01">
+			<ul class="navbar-nav ml-auto">
+
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="themes" style="font-size:medium">Approvals<span class="caret"></span></a>
+					<div class="dropdown-menu" style="position:absolute" aria-labelledby="themes">
+						<a class="dropdown-item" href="@Url.Action("MyApprovals","Home")">Manager Approval</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="@Url.Action("ReportingManagerApprovals","Home")">Reporting Manager Approvals</a>
+					</div>
+				</li>
+				<li class="nav-item">
+					<a href="@Url.Action("MySubmissions","Home")" class="nav-link" style="text-decoration:none;font-size:medium">My Submissions</a>
+				</li>
+				<li class="nav-item">
+					<a href="@Url.Action("ViewStatus","Home")" class="nav-link" style="text-decoration:none;font-size:medium">View Status</a>
+				</li>
+			</ul>
+		</div>
+
+	</nav>
+
+	<div>
+		@RenderBody()
+	</div>
+</body>
+</html>

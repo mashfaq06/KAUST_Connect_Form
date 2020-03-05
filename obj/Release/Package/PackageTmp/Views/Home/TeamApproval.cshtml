@@ -1,0 +1,572 @@
+﻿@model KAUSTConnectForm.Models.Table_NewRequest
+
+@{
+	ViewBag.Title = "New";
+	Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<script>
+@*$(document).ready(function () {
+		$('#Rejected').click(function () {
+			var comments = $('#Comments').val();
+			if (comments == "") {
+				$('#Comments').attr("class", "form-control is-invalid");
+				return false;
+			}
+			else {
+			$.ajax({
+				url: "@Url.Action("TeamRejection", "Home")",
+				data: "Comments=" + comments,
+				type: "POST"
+				});
+			}
+	});
+
+
+	$('#Approved').click(function () {
+		var JobTitle = $('#JobTitle').val();
+		var FirstName = $('#FirstName').val();
+		var MiddleName = $('#MiddleName').val();
+		var LastName = $('#LastName').val();
+		var KAUSTID = $('#KAUSTID').val();
+		var VendorName = $('#VendorName').val();
+		var ExistingUsername = $('#ExistingUsername').val();
+		var ExpiryDate = $('#ExpiryDate').val();
+		var NewEmail = $('#NewEmail').val();
+		var data = JSON.stringify({ "Job": JobTitle, "FirstName": FirstName, "MiddleName": MiddleName, "LastName": LastName, "KAUSTID": KAUSTID, "VendorName": VendorName, "ExistingUsername": ExistingUsername, "ExpiryDate": ExpiryDate, "NewEmail": NewEmail });
+		if (JobTitle == "" || ExistingUsername == "") {
+			$('#JobTitle').attr("class", "form-control is-invalid");
+			$('#ExistingUsername').attr("class", "form-control is-invalid");
+				return false;
+			}
+			else {
+			$.ajax({
+				url: "@Url.Action("TeamApprove", "Home")",
+				data: data,
+				type: "POST",
+				contentType:'application/json'
+				});
+			}
+	});
+	});*@
+
+	$(document).ready(function () {
+		$('form input[type="submit"]').click(function (event) {
+			var val = $(this).attr('value');
+			var comments = $('#Comments').val();
+			if (val == "Reject" || val == "Modify") {
+				if (comments == "") {
+					$('#Comments').attr("class", "form-control is-invalid");
+					return false;
+				}
+			}
+			return true;
+		});
+	});
+
+	$(document).ready(function () {
+		$('#Comments').change(function () {
+			$('#Comments').attr("class", "form-control is-valid");
+		});
+	});
+
+	$(document).on("keydown", "input", function (e) {
+		if (e.which == 13) e.preventDefault();
+	});
+
+	$(document).ready(function () {
+		$('#ShowID').click(function () {
+			var imageVal = $('#image').val();
+			if (imageVal == "") {
+				$('#image').removeAttr("hidden");
+				$('#image').val("Close KAUST ID");
+				return false;
+			}
+			else {
+				$('#image').attr("hidden", "hidden");
+				$('#image').val("");
+				return false;
+			}
+			return false;
+
+		});
+
+	});
+
+
+		$(document).on('change','#ExistingUsername',function () {
+		var username = $('#ExistingUsername').val();
+			$.ajax({
+				url: "@Url.Action("SearchExistingUsername", "Home")",
+				data: "username=" + username,
+				type: "POST",
+				success: function (user) {
+					if (user.user === "null") {
+						$('#ExistingUsername').attr("class", "form-control is-valid");
+
+					}
+					else {
+						$('#ExistingUsername').attr("class", "form-control is-invalid");
+
+					}
+				},
+				error: function () {
+					$('#MI').val() = "Error";
+				}
+			});
+	});
+
+	$(document).on('change','#NewEmail',function () {
+		var username = $('#NewEmail').val();
+			$.ajax({
+				url: "@Url.Action("SearchExistingMail", "Home")",
+				data: "username=" + username,
+				type: "POST",
+				success: function (user) {
+					if (user.user === "null") {
+						$('#NewEmail').attr("class", "form-control is-valid");
+
+					}
+					else {
+						$('#NewEmail').attr("class", "form-control is-invalid");
+
+					}
+				},
+				error: function () {
+					$('#MI').val() = "Error";
+				}
+			});
+	});
+
+	function check() {
+
+		var Username = $("#Username").val();
+		var SenderID = $("#SenderID").val();
+		var CostCenter = $("#CostCenterNumber").val();
+		var ManagerUsername = $("#ManagerUsername").val();
+		if (Username == "") {
+			$('#Username').attr("class", "form-control is-invalid");
+			return false;
+		}
+		else if (SenderID == "") {
+			$('#SenderID').attr("class", "form-control is-invalid");
+
+		}
+		else if (CostCenter == "") {
+			$('#CostCenterNumber').attr("class", "form-control is-invalid");
+
+		}
+		else if (ManagerUsername == "") {
+			$('#ManagerUsername').attr("class", "form-control is-invalid");
+
+		}
+		else {
+			return false;
+		}
+		return true;
+
+	}
+
+</script>
+
+@using (Html.BeginForm("TeamApproval", "Home", FormMethod.Post, new { onsubmit = "check(event)" }))
+{
+	@Html.HiddenFor(x => x.IDimage)
+	@Html.HiddenFor(x => x.EmailRequired)
+	@Html.HiddenFor(x => x.Requester)
+	@Html.HiddenFor(x => x.RequesterEmail)
+	<div class="container" style="border:1px solid #073642; margin-top: 20px; margin-bottom: 50px; border-radius: 10px;">
+		<div class="panel panel-default" style="padding:10px">
+			<div class="panel-body">
+				<h2>Welcome Messaging Team Member</h2>
+				<br />
+				<div class="form-group">
+					<h4 class="headerClass"><b>REQUEST DETAILS</b></h4>
+					<hr />
+					<br />
+					<div class="row">
+						<div class="col-3">
+							@Html.LabelFor(model => model.NewOrRenew, "Type")
+						</div>
+						<div class="col-3">
+							@Html.LabelFor(model => model.ID, "Reference Number")
+						</div>
+						@{
+							if (Model.ExistingUsername != null)
+							{
+								<div class="col-3">
+									@Html.LabelFor(model => model.ExistingUsername, "Existing Username")
+								</div>
+
+							}
+							else
+							{
+								<div class="col-3">
+									@Html.LabelFor(model => model.ExistingUsername, "New Username")
+								</div>
+
+							}
+						}
+						<div class="col-3">
+							@Html.LabelFor(model => model.ExpiryDate, "Expiry Date")
+						</div>
+
+					</div>
+					<div class="row">
+						<div class="col-3">
+							@Html.TextBoxFor(model => model.NewOrRenew, new { @readonly = "readonly", @class = "form-control" })
+						</div>
+						@{
+							var ID = Model.ID.ToString();
+							var result = int.TryParse(ID, out int id);
+							if (result == true)
+							{
+								<div class="col-3">
+									<input type="text" value="@id" class="form-control" readonly="readonly" />
+								</div>
+							}
+						}
+						@{
+							if (Model.ExistingUsername != null)
+							{
+								<div class="col-3">
+									@Html.TextBoxFor(model => model.ExistingUsername, new { @readonly = "readonly", @class = "form-control" })
+								</div>
+
+							}
+							else
+							{
+								<div class="col-3">
+									@Html.TextBoxFor(model => model.ExistingUsername, new { @class = "form-control" })
+									<div class="invalid-feedback">Username Already Exist</div>
+								</div>
+
+							}
+						}
+						<div class="col-3">
+							@Html.TextBoxFor(model => model.ExpiryDate, new { @type = "Date", @class = "form-control" })
+						</div>
+					</div>
+					<br />
+					<div class="row">
+						@{
+							if (Model.EmailRequired != "NA")
+							{
+								<div class="col-3">
+									@Html.LabelFor(model => model.EmailRequired, "Email Required")
+
+								</div>
+							}
+
+						}
+						<div class="col-3">
+							@Html.LabelFor(model => model.Email, "Password Recovery Email")
+						</div>
+						@{
+							if (Model.NewOrRenew == "New" && Model.EmailRequired == "Yes" && Model.NewEmail == null)
+							{
+								<div class="col-3">
+									@Html.LabelFor(model => model.NewEmail, "New Email")
+								</div>
+
+							}
+						}
+
+						@{
+							if (Model.PhoneNumber != null)
+							{
+								<div class="col-3">
+									@Html.LabelFor(model => model.PhoneNumber, "Phone Number")
+
+								</div>
+
+							}
+						}
+					</div>
+					<div class="row">
+						@{
+							if (Model.EmailRequired != "NA")
+							{
+								<div class="col-3">
+									@Html.TextBoxFor(model => model.EmailRequired, new { @readonly = "readonly", @class = "form-control" })
+								</div>
+							}
+
+						}
+						<div class="col-3">
+							@Html.TextBoxFor(model => model.Email, new { @readonly = "readonly", @class = "form-control" })
+						</div>
+						@{
+							if (Model.NewOrRenew == "New" && Model.EmailRequired == "Yes")
+							{
+								<div class="col-3">
+									@Html.TextBoxFor(model => model.NewEmail, new { @class = "form-control", @type = "Email" })
+									<div class="invalid-feedback">Email Address Already Exist</div>
+
+								</div>
+							}
+						}
+
+						@{
+							if (Model.PhoneNumber != null)
+							{
+								<div class="col-3">
+									@Html.TextBoxFor(model => model.PhoneNumber, new { @readonly = "readonly", @class = "form-control" })
+
+								</div>
+
+							}
+						}
+					</div>
+				</div>
+				<div class="form-group">
+					<h4 class="headerClass"><b>USER DETAILS</b></h4>
+					<hr />
+
+					<div class="row">
+						<div class="col-4">
+							@Html.LabelFor(model => model.FirstName, "First Name")
+						</div>
+						<div class="col-4">
+							@Html.LabelFor(model => model.MiddleName, "Middle Initial")
+						</div>
+						<div class="col-4">
+							@Html.LabelFor(model => model.LastName, "Last Name")
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+						</div>
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.MiddleName, new { @class = "form-control" })
+						</div>
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+						</div>
+					</div>
+					<br />
+					<div class="row">
+						<div class="col-4">
+							@Html.LabelFor(model => model.KAUSTID, "KAUST ID")
+						</div>
+						<div class="col-4">
+							@Html.LabelFor(model => model.JobTitle, "Job Title")
+						</div>
+						<div class="col-4">
+							@Html.LabelFor(model => model.VendorName, "Partner/Vendor Name")
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.KAUSTID, new { @class = "form-control" })
+						</div>
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.JobTitle, new { @class = "form-control" })
+						</div>
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.VendorName, new { @class = "form-control" })
+						</div>
+					</div>
+					<br />
+					@{
+						if (Model.UserComments != null)
+						{
+							<div class="row">
+								<div class="col-12">
+									@Html.LabelFor(model => model.UserComments, "Comments")
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12">
+									@Html.TextBoxFor(model => model.UserComments, new { @readonly = "readonly", @class = "form-control" })
+								</div>
+							</div>
+						}
+
+					}
+				</div>
+				<br />
+				<div class="form-group">
+					<h5 class="headerClass">REPORTING MANAGER/LEAD</h5>
+					<hr />
+					<div class="row">
+						<div class="col-3">
+							@Html.LabelFor(model => model.ReportingMngUsername, "Username/KAUST ID/Email")
+						</div>
+						<div class="col-3">
+							@Html.LabelFor(model => model.ReportingMngName, "Manager Name")
+						</div>
+						<div class="col-3">
+							@Html.LabelFor(model => model.ReportingMngKID, "KAUST ID")
+						</div>
+						<div class="col-3">
+							@Html.LabelFor(model => model.ReportingMngEmail, "Email")
+						</div>
+
+					</div>
+					<div class="row">
+						<div class="col-3">
+							@Html.TextBoxFor(model => model.ReportingMngUsername, new { @readonly = "readonly", @class = "form-control" })
+						</div>
+						<div class="col-3">
+							@Html.TextBoxFor(model => model.ReportingMngName, new { @class = "form-control", @readonly = "readonly" })
+						</div>
+						<div class="col-3">
+							@Html.TextBoxFor(model => model.ReportingMngKID, new { @class = "form-control", @readonly = "readonly" })
+						</div>
+						<div class="col-3">
+							@Html.TextBoxFor(model => model.ReportingMngEmail, new { @class = "form-control", @readonly = "readonly" })
+						</div>
+
+					</div>
+
+
+					<br />
+				</div>
+				<br />
+				<div class="form-group">
+					<h4 class="headerClass"><b>KAUST DEPARTMENT MANAGER</b></h4>
+					<hr />
+					<div class="row">
+						<div class="col-4">
+							@Html.LabelFor(model => model.ManagerUsername, "Manager Username")
+						</div>
+						<div class="col-4">
+							@Html.LabelFor(model => model.ManagerName, "Manager Name")
+						</div>
+						<div class="col-4">
+							@Html.LabelFor(model => model.ManagerTitle, "Manager Title")
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.ManagerUsername, new { @class = "form-control", @readonly = "readonly" })
+						</div>
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.ManagerName, new { @class = "form-control", @readonly = "readonly" })
+						</div>
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.ManagerTitle, new { @class = "form-control", @readonly = "readonly" })
+						</div>
+					</div>
+					<br />
+					<div class="row">
+						<div class="col-4">
+							@Html.LabelFor(model => model.ManagerDept, "Department")
+						</div>
+						<div class="col-4">
+							@Html.LabelFor(model => model.ManagerEmail, "Email")
+						</div>
+						<div class="col-4">
+							@Html.LabelFor(model => model.ManagerKID, "KAUST ID")
+						</div>
+
+					</div>
+					<div class="row">
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.ManagerDept, new { @class = "form-control", @readonly = "readonly" })
+						</div>
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.ManagerEmail, new { @class = "form-control", @readonly = "readonly" })
+						</div>
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.ManagerKID, new { @class = "form-control", @readonly = "readonly" })
+						</div>
+					</div>
+				</div>
+				<br />
+				<div class="form-group" style="text-align:center">
+					<div class="row">
+						<div class="col-4">
+						</div>
+						<div class="col-4">
+							<input type="submit" name="ShowID" id="ShowID" value="View KAUST ID" class="btn btn-info" />
+							<br />
+							<br />
+							<img src='data:image/jpeg;base64,@(Convert.ToBase64String(Model.IDimage))' id="image" height="300" width="200" hidden />
+
+						</div>
+					</div>
+				</div>
+				<br />
+				<div class="form-group">
+					<h5 class="headerClass">Status of the Form</h5>
+					<hr />
+					<div class="row">
+						<div class="col-4">
+							<label class="col-form-label col-form-label-sm" for="inputSmall">Current Status</label>
+							@Html.TextBoxFor(model => model.StatusOfRequest, new { @readonly = "readonly", @class = "form-control" })
+						</div>
+					</div>
+					<br />
+					<h5><b>Manager</b></h5>
+					<div class="row">
+						<div class="col-4">
+							<label class="col-form-label col-form-label-sm" for="inputSmall">Action Taken By</label>
+							@Html.TextBoxFor(model => model.ApprovedBy, new { @readonly = "readonly", @class = "form-control" })
+						</div>
+						<div class="col-4">
+							<label class="col-form-label col-form-label-sm" for="inputSmall">Date and Time</label>
+							@Html.TextBoxFor(model => model.ApprovedOn, new { @readonly = "readonly", @class = "form-control" })
+						</div>
+					</div>
+					<br />
+					@{
+						if (Model.MsgTeamApprovedOn != null)
+						{
+							<div id="MessagingTeamMember">
+								<h5><b>Messaging Team</b></h5>
+								<div class="row">
+									<div class="col-4">
+										<label class="col-form-label col-form-label-sm" for="inputSmall">Action Taken By</label>
+										@Html.TextBoxFor(model => model.MsgTeamApprovedBy, new { @readonly = "readonly", @class = "form-control" })
+									</div>
+									<div class="col-4">
+										<label class="col-form-label col-form-label-sm" for="inputSmall">Date and Time</label>
+										@Html.TextBoxFor(model => model.MsgTeamApprovedOn, new { @readonly = "readonly", @class = "form-control" })
+									</div>
+
+								</div>
+							</div>
+
+						}
+					}
+				</div>
+				<br />
+				<div class="row">
+					<div class="col-4">
+					</div>
+					<div class="col-4">
+						<div style="text-align:center">
+							@Html.Label("Comments")
+							@Html.TextAreaFor(m => m.Comments, 5, 10, new { @class = "form-control", @id = "Comments" })
+						</div>
+					</div>
+				</div>
+
+
+				@{
+					bool value = Convert.ToBoolean(ViewBag.Hide);
+					if (value == false)
+					{
+						<br />
+						<div style="text-align: center">
+							<input type="submit" value="Approve" id="Approve" class="btn btn-success" name="Submit" /> <input type="submit" id="Reject" value="Reject" class="btn btn-danger" name="Submit" />
+						</div>
+
+
+						@*<div style="text-align: center;">
+								<br />
+								@Html.ActionLink("Approved", "TeamApproved", "Home", new { @class = "btn btn-success", @id = "Approved" })
+								@Html.ActionLink("Rejected", "TeamRejected", "Home", new { @class = "btn btn-danger", @id = "Rejected" })
+								<br />
+							</div>*@
+					}
+				}
+
+			</div>
+			<br />
+		</div>
+	</div>
+}

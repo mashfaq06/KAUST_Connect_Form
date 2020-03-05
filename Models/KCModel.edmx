@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="KCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Table_NewRequest">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NewOrRenew" Type="nvarchar" MaxLength="50" />
+          <Property Name="EmailRequired" Type="nvarchar" MaxLength="100" />
+          <Property Name="ExistingUsername" Type="nvarchar" MaxLength="50" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="KAUSTID" Type="int" />
+          <Property Name="JobTitle" Type="nvarchar" MaxLength="50" />
+          <Property Name="VendorName" Type="nvarchar" MaxLength="50" />
+          <Property Name="NewEmail" Type="nvarchar" MaxLength="50" />
+          <Property Name="ExpiryDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="PhoneNumber" Type="bigint" />
+          <Property Name="ReportingMngUsername" Type="nvarchar" MaxLength="50" />
+          <Property Name="ReportingMngKID" Type="int" />
+          <Property Name="ReportingMngName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ReportingMngEmail" Type="nvarchar" MaxLength="100" />
+          <Property Name="LoginDetailsSentTo" Type="nvarchar" MaxLength="100" />
+          <Property Name="ManagerUsername" Type="nvarchar" MaxLength="50" />
+          <Property Name="ManagerName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ManagerDept" Type="nvarchar" MaxLength="50" />
+          <Property Name="ManagerEmail" Type="nvarchar" MaxLength="100" />
+          <Property Name="ManagerKID" Type="int" />
+          <Property Name="ApprovedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="ApprovedOn" Type="nvarchar" MaxLength="50" />
+          <Property Name="MsgTeamApprovedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="MsgTeamApprovedOn" Type="nvarchar" MaxLength="50" />
+          <Property Name="Comments" Type="nvarchar(max)" />
+          <Property Name="StatusOfRequest" Type="nvarchar" MaxLength="50" />
+          <Property Name="Requester" Type="nvarchar" MaxLength="50" />
+          <Property Name="RequesterEmail" Type="nvarchar" MaxLength="100" />
+          <Property Name="IDimage" Type="varbinary(max)" />
+          <Property Name="UserComments" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="ManagerTitle" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Function Name="sp_CreateExistingID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="ExistingUsername" Type="nvarchar" Mode="In" />
+          <Parameter Name="FirstName" Type="nvarchar" Mode="In" />
+          <Parameter Name="MiddleName" Type="nvarchar" Mode="In" />
+          <Parameter Name="LastName" Type="nvarchar" Mode="In" />
+          <Parameter Name="kaustID" Type="int" Mode="In" />
+          <Parameter Name="Job" Type="nvarchar" Mode="In" />
+          <Parameter Name="VendorName" Type="nvarchar" Mode="In" />
+          <Parameter Name="NewEmail" Type="nvarchar" Mode="In" />
+          <Parameter Name="ExpiryDate" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_MngApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="Status" Type="nvarchar" Mode="In" />
+          <Parameter Name="Job" Type="nvarchar" Mode="In" />
+          <Parameter Name="ApprovedBy" Type="nvarchar" Mode="In" />
+          <Parameter Name="ApprovedOn" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_MngRejection" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="Status" Type="nvarchar" Mode="In" />
+          <Parameter Name="ApprovedBy" Type="nvarchar" Mode="In" />
+          <Parameter Name="ApprovedOn" Type="nvarchar" Mode="In" />
+          <Parameter Name="Comments" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_MsgApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="MsgTeamApprovedBy" Type="nvarchar" Mode="In" />
+          <Parameter Name="MsgTeamApprovedOn" Type="nvarchar" Mode="In" />
+          <Parameter Name="Status" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_MsgRejection" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="MsgTeamApprovedBy" Type="nvarchar" Mode="In" />
+          <Parameter Name="MsgTeamApprovedOn" Type="nvarchar" Mode="In" />
+          <Parameter Name="Status" Type="nvarchar" Mode="In" />
+          <Parameter Name="Comments" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <EntityContainer Name="KCModelStoreContainer">
+          <EntitySet Name="Table_NewRequest" EntityType="Self.Table_NewRequest" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="KCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Table_NewRequest">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NewOrRenew" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmailRequired" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ExistingUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="KAUSTID" Type="Int32" />
+          <Property Name="JobTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="VendorName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NewEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ExpiryDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="Int64" />
+          <Property Name="ReportingMngUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReportingMngKID" Type="Int32" />
+          <Property Name="ReportingMngName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReportingMngEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LoginDetailsSentTo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ManagerUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ManagerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ManagerDept" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ManagerEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ManagerKID" Type="Int32" />
+          <Property Name="ApprovedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApprovedOn" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MsgTeamApprovedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MsgTeamApprovedOn" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StatusOfRequest" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Requester" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RequesterEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IDimage" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="UserComments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ManagerTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="KCEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Table_NewRequest" EntityType="Self.Table_NewRequest" />
+          <FunctionImport Name="sp_MngApproval">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+            <Parameter Name="Job" Mode="In" Type="String" />
+            <Parameter Name="ApprovedBy" Mode="In" Type="String" />
+            <Parameter Name="ApprovedOn" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_MngRejection">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+            <Parameter Name="ApprovedBy" Mode="In" Type="String" />
+            <Parameter Name="ApprovedOn" Mode="In" Type="String" />
+            <Parameter Name="Comments" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_MsgApproval">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="MsgTeamApprovedBy" Mode="In" Type="String" />
+            <Parameter Name="MsgTeamApprovedOn" Mode="In" Type="String" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_MsgRejection">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="MsgTeamApprovedBy" Mode="In" Type="String" />
+            <Parameter Name="MsgTeamApprovedOn" Mode="In" Type="String" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+            <Parameter Name="Comments" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_CreateExistingID">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="ExistingUsername" Mode="In" Type="String" />
+            <Parameter Name="FirstName" Mode="In" Type="String" />
+            <Parameter Name="MiddleName" Mode="In" Type="String" />
+            <Parameter Name="LastName" Mode="In" Type="String" />
+            <Parameter Name="kaustID" Mode="In" Type="Int32" />
+            <Parameter Name="Job" Mode="In" Type="String" />
+            <Parameter Name="VendorName" Mode="In" Type="String" />
+            <Parameter Name="NewEmail" Mode="In" Type="String" />
+            <Parameter Name="ExpiryDate" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="KCModelStoreContainer" CdmEntityContainer="KCEntities">
+          <EntitySetMapping Name="Table_NewRequest">
+            <EntityTypeMapping TypeName="KCModel.Table_NewRequest">
+              <MappingFragment StoreEntitySet="Table_NewRequest">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NewOrRenew" ColumnName="NewOrRenew" />
+                <ScalarProperty Name="EmailRequired" ColumnName="EmailRequired" />
+                <ScalarProperty Name="ExistingUsername" ColumnName="ExistingUsername" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="KAUSTID" ColumnName="KAUSTID" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+                <ScalarProperty Name="NewEmail" ColumnName="NewEmail" />
+                <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="ReportingMngUsername" ColumnName="ReportingMngUsername" />
+                <ScalarProperty Name="ReportingMngKID" ColumnName="ReportingMngKID" />
+                <ScalarProperty Name="ReportingMngName" ColumnName="ReportingMngName" />
+                <ScalarProperty Name="ReportingMngEmail" ColumnName="ReportingMngEmail" />
+                <ScalarProperty Name="LoginDetailsSentTo" ColumnName="LoginDetailsSentTo" />
+                <ScalarProperty Name="ManagerUsername" ColumnName="ManagerUsername" />
+                <ScalarProperty Name="ManagerName" ColumnName="ManagerName" />
+                <ScalarProperty Name="ManagerDept" ColumnName="ManagerDept" />
+                <ScalarProperty Name="ManagerEmail" ColumnName="ManagerEmail" />
+                <ScalarProperty Name="ManagerKID" ColumnName="ManagerKID" />
+                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+                <ScalarProperty Name="ApprovedOn" ColumnName="ApprovedOn" />
+                <ScalarProperty Name="MsgTeamApprovedBy" ColumnName="MsgTeamApprovedBy" />
+                <ScalarProperty Name="MsgTeamApprovedOn" ColumnName="MsgTeamApprovedOn" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="StatusOfRequest" ColumnName="StatusOfRequest" />
+                <ScalarProperty Name="Requester" ColumnName="Requester" />
+                <ScalarProperty Name="RequesterEmail" ColumnName="RequesterEmail" />
+                <ScalarProperty Name="IDimage" ColumnName="IDimage" />
+                <ScalarProperty Name="UserComments" ColumnName="UserComments" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ManagerTitle" ColumnName="ManagerTitle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_MngApproval" FunctionName="KCModel.Store.sp_MngApproval" />
+          <FunctionImportMapping FunctionImportName="sp_MngRejection" FunctionName="KCModel.Store.sp_MngRejection" />
+          <FunctionImportMapping FunctionImportName="sp_MsgApproval" FunctionName="KCModel.Store.sp_MsgApproval" />
+          <FunctionImportMapping FunctionImportName="sp_MsgRejection" FunctionName="KCModel.Store.sp_MsgRejection" />
+          <FunctionImportMapping FunctionImportName="sp_CreateExistingID" FunctionName="KCModel.Store.sp_CreateExistingID" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

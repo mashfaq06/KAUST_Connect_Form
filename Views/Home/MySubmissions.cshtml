@@ -1,0 +1,122 @@
+﻿@model PagedList.IPagedList<KAUSTConnectForm.Controllers.Data>
+@using PagedList.Mvc;
+@{
+	Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<script type="text/javascript">
+
+	$(document).ready(function () {
+		if ($('#CurrentStatus').val() == "" || $('#CurrentStatus').val() == "--Select Status--" ) {
+			$('#CurrentStatus').val("All");
+		}
+	});
+
+	$(function () {
+		$('#Status').change(function () {
+			$(this).closest('form').submit();
+		});
+	});
+</script>
+<div class="container" style="margin-top:10px">
+	@using (Html.BeginForm("MySubmissions", "Home", FormMethod.Post))
+	{
+	<div class="row">
+		<div class="col-3"></div>
+		<div class="col-3" style="color:white">
+			Select Status
+		</div>
+		<div class="col-3" style="font-size:medium">
+			@Html.Label("Current Status")
+		</div>
+	</div>
+		<div class="row">
+			<div class="col-3">
+				@Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", @placeholder = "Search for any field" })
+				<br />
+				<input type="submit" value="Search" class="btn btn-info" />  @Html.ActionLink("Reset", "MySubmissions", null, new { @class = "btn btn-primary" })
+			</div>
+			<div class="col-3" style="color:white">
+				<select name="Status" id="Status" class="custom-select">
+					<option>--Select Status--</option>
+					<option value="All">All</option>
+					<option value="Pending Manager Approval">Pending Manager Approval</option>
+					<option value="Pending Reporting Manager Approval">Pending Reporting Manager Approval</option>
+					<option value="Pending Messaging Team Approval">Pending Messaging Team Approval</option>
+					<option value="Rejected by Manager">Rejected by Manager</option>
+					<option value="Approved by Messaging Team">Approved by Messaging Team</option>
+					<option value="Approved and Completed">Approved and Completed</option>
+					<option value="Rejected by Messaging Team">Rejected by Messaging Team</option>
+				</select>
+			</div>
+			<div class="col-3">
+				<input type="text" name="CurrentStatus" id="CurrentStatus" readonly="readonly" class="form-control" value="@ViewBag.Status" />
+			</div>
+
+		</div>
+
+	}
+	<br />
+	<table class="table">
+		<tr>
+			<th>
+				Reference Number
+			</th>
+			<th>
+				Username
+			</th>
+			<th>
+				First Name
+			</th>
+			<th>
+				Last Name
+			</th>
+			<th>
+				Department
+			</th>
+			<th>
+				Manager Name
+			</th>
+			<th>
+				Status
+			</th>
+		</tr>
+
+		@foreach (var item in Model)
+		{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.ID)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Username)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.FirstName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.LastName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Department)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.ManagerName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Status)
+			</td>
+		</tr>
+		}
+
+	</table>
+
+	<div style="font-size:large;padding: 0.75rem 1.5rem;font-size: 1.171875rem;line-height: 1.5">
+		Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+		@Html.PagedListPager(Model, page => Url.Action("MySubmissions", new { page, currentFilter = ViewBag.CurrentFilter }), new PagedListRenderOptions
+   {
+	   LiElementClasses = new string[] { "page-link" }
+
+   })
+	</div>
+</div>

@@ -1,0 +1,433 @@
+﻿@model KAUSTConnectForm.Models.Table_NewRequest
+
+@{
+	ViewBag.Title = "New";
+	Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<script>
+	$(document).on('change', '#ExistingUsername', function () {
+		var username = $('#ExistingUsername').val();
+		$.ajax({
+				url: "@Url.Action("SearchDirectory", "Home")",
+				data: "username=" + username,
+				type: "POST",
+			success: function (user) {
+				if (user.user === "null") {
+					$('#ExistingUsername').attr("class", "form-control is-invalid");
+				}
+				else {
+
+					$('#ExistingUsername').val(user.user);
+					$('#ExistingUsername').attr("class", "form-control is-valid");
+					$('#FirstName').val(user.FirstName);
+					$('#MiddleName').val(user.MiddleInitial);
+					$('#LastName').val(user.LastName);
+					$('#KAUSTID').val(user.KAUSTID);
+					$('#JobTitle').val(user.Job);
+					$('#VendorName').val(user.Vendor);
+					$('#NewEmail').val(user.Email);
+				}
+				},
+				error: function () {
+					$('#MI').val() = "Error";
+				}
+			});
+
+	});
+
+
+	$(document).on('change','#ManagerUsername',function () {
+		var username = $('#ManagerUsername').val();
+			$.ajax({
+				url: "@Url.Action("SearchManager", "Home")",
+				data: "username=" + username,
+				type: "POST",
+				success: function (user) {
+					if (user.user === "null") {
+						$('#ManagerUsername').attr("class", "form-control is-invalid");
+
+					}
+					else {
+						$('#ManagerUsername').val(user.user);
+						$('#ManagerUsername').attr("class", "form-control is-valid");
+						$('#ManagerName').val(user.ManagerName);
+						$('#ManagerEmail').val(user.ManagerEmail);
+						$('#ManagerKID').val(user.ManagerID);
+						$('#ManagerDept').val(user.ManagerDept);
+						$('#ManagerTitle').val(user.ManagerTitle);
+
+					}
+				},
+				error: function () {
+					$('#MI').val() = "Error";
+				}
+			});
+	});
+
+	$(document).on('change','#ReportingMngUsername',function () {
+		var username = $('#ReportingMngUsername').val();
+			$.ajax({
+				url: "@Url.Action("SearchManager", "Home")",
+				data: "username=" + username,
+				type: "POST",
+				success: function (user) {
+					if (user.user === "null") {
+						$('#ReportingMngUsername').attr("class", "form-control is-invalid");
+
+					}
+					else {
+						$('#ReportingMngUsername').val(user.user);
+						$('#ReportingMngUsername').attr("class", "form-control is-valid");
+						$('#ReportingMngName').val(user.ManagerName);
+						$('#ReportingMngEmail').val(user.ManagerEmail);
+						$('#ReportingMngKID').val(user.ManagerID);
+
+					}
+				},
+				error: function () {
+					$('#MI').val() = "Error";
+				}
+			});
+	});
+
+	$(document).ready(function () {
+		$('#image').change(function () {
+			$('#Server_Hostname').attr("class", "form-control is-valid");
+		});
+	});
+
+	function check() {
+		var ExistingUsername = $("#ExistingUsername").val();
+		var ReportingMngUsername = $("#ReportingMngUsername").val();
+		var ManagerUsername = $("#ManagerUsername").val();
+		if (ExistingUsername == "") {
+			$('#ExistingUsername').attr("class", "form-control is-invalid");
+			return false;
+		}
+		else if (ReportingMngUsername == "") {
+			$('#ReportingMngUsername').attr("class", "form-control is-invalid");
+
+		}
+		else if (ManagerUsername == "") {
+			$('#ManagerUsername').attr("class", "form-control is-invalid");
+
+		}
+		else {
+			return false;
+		}
+		return true;
+
+	}
+
+	$(function () {
+
+		$('#image').change(function () {
+
+			var image = $(this).get(0).files[0];
+			var imagesize = $(this).get(0).files[0].size;
+
+			if (imagesize >= 3000000) {
+				alert("Kindly upload an image of size 3 MB or less");
+				$(this).val("");
+
+			}
+		});
+	});
+
+	(function ($) {
+		$.fn.checkFileType = function (options) {
+			var defaults = {
+				allowedExtensions: [],
+				success: function () { },
+				error: function () { }
+			};
+			options = $.extend(defaults, options);
+
+			return this.each(function () {
+
+				$(this).on('change', function () {
+					var value = $(this).val(),
+						file = value.toLowerCase(),
+						extension = file.substring(file.lastIndexOf('.') + 1);
+
+					if ($.inArray(extension, options.allowedExtensions) == -1) {
+						options.error();
+						$(this).focus();
+					} else {
+						options.success();
+
+					}
+
+				});
+
+			});
+		};
+
+	})(jQuery);
+
+	$(function () {
+		$('#image').checkFileType({
+			allowedExtensions: ['jpg', 'jpeg','png','bmp'],
+			success: function () {
+			},
+			error: function () {
+				$('#image').val("");
+			}
+		});
+
+	});
+
+	$(document).on("keydown", "input", function (e) {
+		if (e.which == 13) e.preventDefault();
+	});
+
+</script>
+
+@using (Html.BeginForm("Renew", "Form", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+	@Html.AntiForgeryToken()
+
+	<div class="container" style="border:1px solid #073642; margin-top: 20px; margin-bottom: 50px; border-radius: 10px;">
+		<div class="panel panel-default" style="padding:10px">
+			<div class="panel-body">
+				<br />
+				<div class="form-group">
+					<h4 class="headerClass"><b>REQUESTER DETAILS</b></h4>
+					<hr />
+					<br />
+					<div class="row">
+						<div class="col-4">
+							@Html.LabelFor(model => model.ExistingUsername, "Username/KAUST ID/Email")<label style="color:red">*</label>
+							<br />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.ExistingUsername, new { @class = "form-control", @placeholder = "Username or KAUST ID or Email" })
+							@Html.ValidationMessageFor(model => model.ExistingUsername, "", new { @class = "text-danger" })
+							<div class="invalid-feedback">Please input valid username</div>
+						</div>
+					</div>
+					<br />
+					<div class="row">
+						<div class="col-4">
+							@Html.LabelFor(model => model.FirstName, "First Name")
+						</div>
+						<div class="col-4">
+							@Html.LabelFor(model => model.MiddleName, "Middle Initial")
+						</div>
+						<div class="col-4">
+							@Html.LabelFor(model => model.LastName, "Last Name")
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", @readonly = "readonly" })
+							@Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+						</div>
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.MiddleName, new { @class = "form-control", @readonly = "readonly" })
+							@Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
+						</div>
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.LastName, new { @class = "form-control", @readonly = "readonly" })
+							@Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+						</div>
+					</div>
+					<br />
+					<div class="row">
+						<div class="col-4">
+							@Html.LabelFor(model => model.KAUSTID, "KAUST ID")
+						</div>
+						<div class="col-4">
+							@Html.LabelFor(model => model.JobTitle, "Job Title")
+						</div>
+						<div class="col-4">
+							@Html.LabelFor(model => model.VendorName, "Vendor Name")
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.KAUSTID, new { @class = "form-control", @readonly = "readonly" })
+							@Html.ValidationMessageFor(model => model.KAUSTID, "", new { @class = "text-danger" })
+						</div>
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.JobTitle, new { @class = "form-control" })
+							@Html.ValidationMessageFor(model => model.JobTitle, "", new { @class = "text-danger" })
+						</div>
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.VendorName, new { @class = "form-control" })
+							@Html.ValidationMessageFor(model => model.VendorName, "", new { @class = "text-danger" })
+						</div>
+					</div>
+					<br />
+					<div class="row">
+						<div class="col-4">
+							Email
+							<label style="font-size:xx-small">(Please provide non-KAUST email for password recovery)</label><label style="color:red">*</label>
+						</div>
+						<div class="col-8">
+							@Html.LabelFor(model => model.UserComments, "Comments")
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.Email, new { @class = "form-control", @placeholder = "Enter non-KAUST Email Address", @type = "email" })
+							@Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+						</div>
+						<div class="col-8">
+							@Html.TextBoxFor(model => model.UserComments, new { @class = "form-control", @placeholder = "Provide Any Special Instruction" })
+							@Html.ValidationMessageFor(model => model.UserComments, "", new { @class = "text-danger" })
+						</div>
+					</div>
+					<br />
+				</div>
+				<br />
+				<br />
+				<div class="form-group">
+					<h5 class="headerClass">REPORTING MANAGER/LEAD</h5>
+					<p Font-Size="Smaller" Font-Bold="true">The Reporting Manager/Lead details are required to send account expiry notification and show as manager in address book.</p>
+					<hr />
+					<div class="row">
+						<div class="col-3">
+							@Html.LabelFor(model => model.ReportingMngUsername, "Username/KAUST ID/Email")<label style="color:red">*</label>
+							<br />
+						</div>
+						<div class="col-3">
+							@Html.LabelFor(model => model.ReportingMngName, "Manager Name")
+						</div>
+						<div class="col-3">
+							@Html.LabelFor(model => model.ReportingMngKID, "KAUST ID")
+						</div>
+						<div class="col-3">
+							@Html.LabelFor(model => model.ReportingMngEmail, "Email")
+						</div>
+
+					</div>
+					<div class="row">
+						<div class="col-3">
+							@Html.TextBoxFor(model => model.ReportingMngUsername, new { @class = "form-control", @placeholder = "Username or KAUST ID or Email" })
+							@Html.ValidationMessageFor(model => model.ReportingMngUsername, "", new { @class = "text-danger" })
+							<div class="invalid-feedback">Please input valid Reporting Manager/Lead username</div>
+						</div>
+						<div class="col-3">
+							@Html.TextBoxFor(model => model.ReportingMngName, new { @class = "form-control", @readonly = "readonly" })
+							@Html.ValidationMessageFor(model => model.ReportingMngName, "", new { @class = "text-danger" })
+						</div>
+						<div class="col-3">
+							@Html.TextBoxFor(model => model.ReportingMngKID, new { @class = "form-control", @readonly = "readonly" })
+							@Html.ValidationMessageFor(model => model.ReportingMngKID, "", new { @class = "text-danger" })
+						</div>
+						<div class="col-3">
+							@Html.TextBoxFor(model => model.ReportingMngEmail, new { @class = "form-control", @readonly = "readonly" })
+							@Html.ValidationMessageFor(model => model.ReportingMngEmail, "", new { @class = "text-danger" })
+						</div>
+
+					</div>
+					<br />
+					@Html.LabelFor(model => model.LoginDetailsSentTo, "Please provide an email address in field below if the receiver of the credentials is other than 'Reporting Manager'")
+					<div class="row">
+
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.LoginDetailsSentTo, new { @class = "form-control", @placebolder = "Provide KAUST Email Address" })
+						</div>
+
+					</div>
+					<br />
+				</div>
+
+				<div class="form-group">
+					<h4 class="headerClass"><b>KAUST DEPARTMENT MANAGER</b></h4>
+					<p Font-Size="Smaller" Font-Bold="true">The Department Manager approval is required. If the Department Manager is on Vacation/Business travel, please input delegated KAUST staff username in below field and kindly forward delegation letter to Messaging Team (messagingservice@kaust.edu.sa) to process the account request.</p>
+					<hr />
+					<div class="row">
+						<div class="col-4">
+							@Html.LabelFor(model => model.ManagerUsername, "Username/KAUST ID/Email")<label style="color:red">*</label>
+							<br />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.ManagerUsername, new { @class = "form-control", @placeholder = "Username or KAUST ID or Email" })
+							@Html.ValidationMessageFor(model => model.ManagerUsername, "", new { @class = "text-danger" })
+							<div class="invalid-feedback">Please input valid Manager username</div>
+
+
+						</div>
+					</div>
+					<br />
+					<div class="row">
+						<div class="col-4">
+							@Html.LabelFor(model => model.ManagerName, "Manager Name")
+						</div>
+						<div class="col-4">
+							@Html.LabelFor(model => model.ManagerKID, "KAUST ID")
+						</div>
+						<div class="col-4">
+							@Html.LabelFor(model => model.ManagerTitle, "Manager Title")
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.ManagerName, new { @class = "form-control", @readonly = "readonly" })
+							@Html.ValidationMessageFor(model => model.ManagerName, "", new { @class = "text-danger" })
+						</div>
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.ManagerKID, new { @class = "form-control", @readonly = "readonly" })
+							@Html.ValidationMessageFor(model => model.ManagerKID, "", new { @class = "text-danger" })
+						</div>
+						<div class="col-4">
+							@Html.TextBoxFor(model => model.ManagerTitle, new { @class = "form-control", @readonly = "readonly" })
+							@Html.ValidationMessageFor(model => model.ManagerTitle, "", new { @class = "text-danger" })
+						</div>
+
+					</div>
+					<br />
+					<div class="row">
+						<div class="col-6">
+							@Html.LabelFor(model => model.ManagerEmail, "Email")
+						</div>
+
+						<div class="col-6">
+							@Html.LabelFor(model => model.ManagerDept, "Department")
+
+						</div>
+					</div>
+					<div class="row">
+
+						<div class="col-6">
+							@Html.TextBoxFor(model => model.ManagerEmail, new { @class = "form-control", @readonly = "readonly" })
+							@Html.ValidationMessageFor(model => model.ManagerEmail, "", new { @class = "text-danger" })
+						</div>
+						<div class="col-6">
+							@Html.TextBoxFor(model => model.ManagerDept, new { @class = "form-control", @readonly = "readonly" })
+							@Html.ValidationMessageFor(model => model.ManagerDept, "", new { @class = "text-danger" })
+						</div>
+					</div>
+					<div class="form-group" style="display:none">
+						@Html.LabelFor(model => model.StatusOfRequest)
+						@Html.TextBoxFor(model => model.StatusOfRequest, new { @Value = "Pending Manager Approval" })
+						@Html.LabelFor(model => model.NewOrRenew)
+						@Html.TextBoxFor(model => model.NewOrRenew, new { @Value = "Renew" })
+						@Html.LabelFor(model => model.EmailRequired)
+						@Html.TextBoxFor(model => model.EmailRequired, new { @Value = "NA" })
+
+					</div>
+
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(model => model.IDimage, "Please upload scanned KAUST ID for the requested user (jpg, jpeg, png or bmp):")<label style="color:red">*</label>
+					<br />
+					<input type="file" name="image" id="image" required accept="image/png,image/jpg,image/jpeg" />
+				</div>
+				<div style="text-align: center;">
+					<input type="submit" value="Submit" class="btn btn-primary" name="Submit" onclick="check()" />
+				</div>
+
+			</div>
+			<br />
+		</div>
+	</div>
+}
+

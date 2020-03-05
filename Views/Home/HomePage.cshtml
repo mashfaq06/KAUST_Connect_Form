@@ -1,0 +1,68 @@
+﻿
+@{
+	ViewBag.Title = "HomePage";
+	Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<div class="container" style="border-color:#073642; border-radius: 10px;margin-top: 20px; margin-bottom: 5px; border:1px solid #073642">
+	<div class="panel panel-default">
+		<div class="panel-body" style="background-color:white">
+			<br />
+			<h4 style="text-align: left; color: maroon;">Please Note</h4>
+			<hr />
+			<div class="form-group" style="padding: 5px">
+				<div>
+					<p>1. The KAUST connect account request form is used to request username for:</p>
+					<p style="display: inline-block">a) Service Provider</p>
+					<p style="margin-left: 50px; display: inline-block;">b) Research Park Tenant</p>
+					<p style="margin-left: 50px; display: inline-block">c) Visiting Faculty/Researcher</p>
+					<p style="margin-left: 50px; display: inline-block">d) Contractor WorkForce (CWF)</p>
+				</div>
+				<div style="margin-bottom: 15px">
+					<p>2. <b>Valid</b> KAUST ID card is <u><b>mandatory</b></u> to process account request.</p>
+				</div>
+				<div style="margin-bottom: 15px">
+					<p>3. The account validity is as per KAUST ID card validity OR maximum six months, whichever earliest.</p>
+				</div>
+				<div style="margin-bottom: 15px">
+					<p>4. Department or Reporting Manager is responsible to notify IT helpdesk if service provider is no longer associated with KAUST.</p>
+				</div>
+				<div style="margin-bottom: 15px">
+					<p>5. KAUST Email will be provided as per <b>Email Eligibilty Matrix</b> in  <a target='_blank' style='color:blue' href='https://policy.kaust.edu.sa/Private%20Policies/Information%20Management/IT%20Procedures%20or%20%20Standards%20or%20%20Guidelines/Email%20Services%20Standards.pdf'>Email Services Standards</a></p>
+				</div>
+				<div style="margin-bottom: 15px">
+					<p>6. Kindly allow 48 hours after Manager Approval to process the request.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container" style="border-radius: 10px; border:1px solid #073642;margin-bottom:10px ">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="form-group" style="padding:10px">
+				<br />
+				<h4 style="color: maroon">Choose Type of Request</h4>
+				<hr />
+				<h5>For Service Provders, SMP and Visiting Faculty/Researchers</h5>
+				<div class="row">
+					<div class="col-6">
+						@Html.ActionLink("New", "New", "Form", null, new { @class = "btn btn-info",@style="font-size:medium" })
+						&nbsp;&nbsp;
+						@Html.ActionLink("Renew", "Renew", "Form", null, new { @class = "btn btn-info", @style = "font-size:medium" })
+					</div>
+				</div>
+				<hr />
+				<h5>For Research Park Tenant Only</h5>
+				<div class="row">
+					<div class="col-6">
+						@Html.ActionLink("New", "New", "PartnerForm", null, new { @class = "btn btn-primary", @style = "font-size:medium" })
+						&nbsp;&nbsp;
+						@Html.ActionLink("Renew", "Renew", "PartnerForm", null, new { @class = "btn btn-primary", @style = "font-size:medium" })
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
